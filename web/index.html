@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Sales Dashboard</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+        <rect x="2" y="2" width="28" height="28" rx="7" fill="#2d5a87"></rect>
+        <path d="M10 22V12h3v10h-3zm5 0V10h3v12h-3zm5 0v-7h3v7h-3z" fill="#ffffff"></path>
+      </svg>
+      <span class="brand-name">Restaurant Sales</span>
+    </div>
+    <h1 class="app-title">Sales Dashboard</h1>
+  </header>
+
+  <main class="app-main">
+    <section class="controls" aria-label="Filters">
+      <div class="control-group">
+        <label for="location">Location</label>
+        <select id="location" name="location">
+          <option value="">All locations</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">All categories</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="dateFrom">From date</label>
+        <input type="date" id="dateFrom" name="dateFrom">
+      </div>
+      <div class="control-group">
+        <label for="dateTo">To date</label>
+        <input type="date" id="dateTo" name="dateTo">
+      </div>
+      <div class="control-actions">
+        <button type="button" id="apply" class="btn btn-primary">Apply</button>
+        <button type="button" id="reset" class="btn btn-secondary">Reset</button>
+      </div>
+    </section>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <div id="loading" class="loading" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Loading sales data&hellip;</span>
+    </div>
+
+    <div id="emptyState" class="empty-state" hidden>
+      <svg class="empty-icon" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="24" r="22" fill="none" stroke="#d0d0d8" stroke-width="2"></circle>
+        <path d="M14 20h20M14 28h14" stroke="#d0d0d8" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <p class="empty-title">No sales to show</p>
+      <p class="empty-text">Try widening the date range or clearing the filters.</p>
+    </div>
+
+    <section class="summary" aria-label="Summary">
+      <div class="card">
+        <span class="card-label">Total revenue</span>
+        <span class="card-value" id="totalRevenue">$0.00</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Transactions</span>
+        <span class="card-value" id="totalTransactions">0</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Items sold</span>
+        <span class="card-value" id="totalItems">0</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Avg ticket</span>
+        <span class="card-value" id="avgTicket">$0.00</span>
+      </div>
+    </section>
+
+    <section class="chart-panel" aria-label="Top items by revenue">
+      <h2 class="panel-title">Top 10 items by revenue</h2>
+      <div class="chart-wrap">
+        <svg id="barChart" class="bar-chart" role="img" aria-label="Bar chart of top ten items by revenue"></svg>
+      </div>
+    </section>
+
+    <section class="table-panel" aria-label="Sales detail">
+      <h2 class="panel-title">Recent transactions</h2>
+      <div class="table-wrap">
+        <table class="sales-table">
+          <thead id="tableHead">
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Item</th>
+              <th scope="col">Category</th>
+              <th scope="col">Location</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
