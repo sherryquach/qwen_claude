@@ -26,10 +26,26 @@ app.get('/api/sales', async (req, res) => {
   try {
     const { status, data } = await invoke(req, 'data.query', {
       binding: 'restaurant-sales',
-      limit: 200000
+      limit: 20000
     });
     if (status >= 200 && status < 300) {
-      res.json(data);
+      // Zip columns with rows into objects for easier frontend consumption
+      const columns = data.columns || [];
+      const rows = data.rows || [];
+      const objects = rows.map(row => {
+        const obj = {};
+        columns.forEach((col, i) => {
+          obj[col] = row[i];
+        });
+        return obj;
+      });
+      res.json({
+        columns,
+        rows: objects,
+        truncated: data.truncated || false,
+        nextOffset: data.nextOffset,
+        count: objects.length
+      });
     } else {
       res.status(status).json(data);
     }

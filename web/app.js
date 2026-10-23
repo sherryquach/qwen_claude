@@ -42,7 +42,9 @@ window.knowiReportReady = false;
     reportSubject: document.getElementById('report-subject'),
     reportNote: document.getElementById('report-note'),
     btnReportSend: document.getElementById('btn-report-send'),
-    reportStatus: document.getElementById('report-status')
+    reportStatus: document.getElementById('report-status'),
+    errorBanner: document.getElementById('error-banner'),
+    errorBannerText: document.getElementById('error-banner-text')
   };
 
   // ---------- Utilities ----------
@@ -165,11 +167,19 @@ window.knowiReportReady = false;
         columns = data.columns || [];
         colIndex = {};
         columns.forEach(function (c, i) { colIndex[c] = i; });
-        allRows = (data.rows || []).map(function (row) {
-          var o = {};
-          columns.forEach(function (c, i) { o[c] = row[i]; });
-          return o;
+        
+        // Handle both array-of-arrays and array-of-objects formats
+        var rawRows = data.rows || [];
+        allRows = rawRows.map(function (row) {
+          if (Array.isArray(row)) {
+            var o = {};
+            columns.forEach(function (c, i) { o[c] = row[i]; });
+            return o;
+          } else {
+            return row;
+          }
         });
+        
         computeDateBounds();
         populateFilterOptions();
         applyFilters();
@@ -336,6 +346,12 @@ window.knowiReportReady = false;
     el.chartCategory.innerHTML = '<p class="chart-empty chart-error">—</p>';
     el.tableBody.innerHTML = '';
     el.tableStatus.textContent = 'Error: ' + (error || 'unknown');
+    
+    // Show error banner
+    if (el.errorBanner) {
+      el.errorBanner.hidden = false;
+      el.errorBannerText.textContent = 'Failed to load sales data. Please refresh the page to try again.';
+    }
   }
 
   function renderKPIs() {
