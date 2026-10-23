@@ -1,1 +1,1 @@
-{"v":2,"service":"server/app.mjs","bindings":[{"key":"restaurant-sales","type":"data","id":87835}],"reportPages":[{"path":"/","title":"Restaurant Sales Dashboard"}]}
+{"v":2,"service":"server/app.mjs","bindings":[{"key":"restaurant-sales","type":"data","id":87835}],"reportPages":[{"path":"/","title":"Restaurant Sales Report"}]}
